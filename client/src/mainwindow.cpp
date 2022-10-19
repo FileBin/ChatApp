@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->send, &QPushButton::clicked, this, [this]() {
         client->sendMessage(ui->textEdit->toPlainText());
+        ui->textEdit->clear();
     });
     connect(client.get(), &Client::messageRecieved, this,
             [this](QString msg) { ui->chatWidget->addItem(msg); });

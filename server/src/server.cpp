@@ -75,8 +75,6 @@ void Server::slotDisconnected(ID id) {
 
 void Server::sendToClients(QString msg) {
     for (auto client : clients) {
-        qDebug() << (client->state() ==
-                     QAbstractSocket::ConnectedState);
         Protocol p = Protocol(client);
         p.sendMessage(msg);
     }
