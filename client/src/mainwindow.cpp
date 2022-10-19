@@ -51,6 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
             [this](Logger::Level level, QString msg) {
                 ui->logWidget->addItem(msg);
             });
+
+    connect(ui->disconnect, &QPushButton::clicked, client.get(),
+            &Client::disconnectFrom);
 }
 
 MainWindow::~MainWindow() { delete ui; }

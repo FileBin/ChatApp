@@ -31,7 +31,7 @@
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout_2">
           <property name="topMargin">
-           <number>20</number>
+           <number>0</number>
           </property>
           <item row="2" column="0">
            <widget class="QPushButton" name="connectButton">
@@ -40,10 +40,17 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="2" column="1">
+           <widget class="QPushButton" name="disconnect">
+            <property name="text">
+             <string>Disconnect</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2">
            <widget class="QLineEdit" name="hostAddressEdit"/>
           </item>
-          <item row="0" column="0">
+          <item row="0" column="0" colspan="2">
            <widget class="QLabel" name="label">
             <property name="text">
              <string>Enter the host address and press connect</string>

@@ -36,6 +36,7 @@ QFuture<bool> Client::connectTo(QString host, uint16_t port) {
             auto start_time = steady_clock::now();
             if (!client->waitForState(QTcpSocket::ConnectedState)) {
                 logger->critical("Connection is timed out!");
+                client->server->disconnectFromHost();
                 return false;
             }
             auto duration = duration_cast<milliseconds>(
