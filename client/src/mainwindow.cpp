@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
         if (!ok) {
             logger->warning("Incorrect host address format! (right "
                             "is host:port)");
+            return;
         }
         client->connectTo(host, port);
     });
