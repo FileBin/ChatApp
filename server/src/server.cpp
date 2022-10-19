@@ -20,6 +20,13 @@
 #include <stdexcept>
 #include <utility>
 NSP_SERVER_BEGIN
+
+QString socketToString(ptr<QTcpSocket> socket) {
+    return QString("%1:%2")
+        .arg(socket->peerAddress().toString())
+        .arg(socket->peerPort());
+}
+
 Server::Server() {
     if (listen(QHostAddress::Any, Protocol::DEFAULT_PORT)) {
         qInfo() << "Server started";
@@ -44,8 +51,7 @@ void Server::incomingConnection(qintptr socketDescriptor) {
     connect(socket.get(), &QTcpSocket::disconnected, this,
             [this, id]() { slotDisconnected(id); });
 
-    qInfo() << "Client" << socket->localAddress().toString()
-            << "connected.";
+    qInfo() << "Client" << socketToString(socket) << "connected.";
 }
 
 void Server::slotReadyRead(ptr<QTcpSocket> socket) {
@@ -53,19 +59,17 @@ void Server::slotReadyRead(ptr<QTcpSocket> socket) {
     QString msg;
     auto result = p.recieveMessage(msg);
     if (result < 0) {
-        qCritical() << "Message read error. (Code" << result << ","
-                    << socket->localAddress().toString() << ")";
+        qCritical() << "Message read error. (Code" << result
+                    << ", at socket" << socketToString(socket) << ")";
         return;
     }
-    qInfo() << "Client" << socket->localAddress().toString() << ":"
-            << msg;
+    qInfo() << "Client" << socketToString(socket) << ":" << msg;
     sendToClients(msg);
 }
 
 void Server::slotDisconnected(ID id) {
     auto o = clients[id];
-    qInfo() << "Client" << o->localAddress().toString()
-            << "disconnected.";
+    qInfo() << "Client" << socketToString(o) << "disconnected.";
     clients.remove(id);
 }
 
